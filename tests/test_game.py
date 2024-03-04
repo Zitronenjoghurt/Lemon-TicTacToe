@@ -44,13 +44,13 @@ def test_move():
     game = Game()
 
     game.move(1, 0, 0)
-    assert game.board[0][0] == 1
+    assert game._board[0][0] == 1
 
     game.move(2, 0, 1)
-    assert game.board[0][1] == 2
+    assert game._board[0][1] == 2
 
     game.move(1, 1, 0)
-    assert game.board[1][0] == 1
+    assert game._board[1][0] == 1
 
     with pytest.raises(WrongPlayerException):
         game.move(1, 1, 1)
@@ -72,3 +72,19 @@ def test_move():
     with pytest.raises(ValueError) as context:
         game.move(2, 1, 3)
     assert "y has to be a value between 0 and 2" in str(context.value)
+
+def test_example_game():
+    game = Game()
+
+    assert game._started == False
+    assert game._finished == False
+
+    assert game.move(1, 0, 0) == False
+    assert game._started == True
+    assert game.move(2, 0, 2) == False
+    assert game.move(1, 1, 1) == False
+    assert game.move(2, 1, 2) == False
+    assert game.move(1, 2, 2) == True
+
+    assert game.winner == 1
+    assert game._finished == True

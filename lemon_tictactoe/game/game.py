@@ -58,9 +58,9 @@ class Game():
         self._bottomleft_topright = {i: 0 for i in range(1, player_count + 1)}
 
     def _increment_player(self) -> None:
-        self.next_moving_player += 1
-        if self.next_moving_player > self.player_count:
-            self.next_moving_player = 1
+        self._next_moving_player += 1
+        if self._next_moving_player > self.player_count:
+            self._next_moving_player = 1
 
     def _check_game_not_started(self) -> None:
         if self._finished:
@@ -70,6 +70,7 @@ class Game():
         if self._finished:
             raise exceptions.GameFinishedException()
 
+    # Returns true if one of the win conditions is met
     def _count_win_condition(self, player_number: int, x: int, y: int) -> bool:
         win = self._add_column_count(row=x, player_number=player_number)
         if win:
@@ -184,8 +185,8 @@ class Game():
         self._check_game_not_finished()
         self._start_game()
         validate_coordinates(self.board_size, x, y)
-        if player_number != self.next_moving_player:
-            raise exceptions.WrongPlayerException(f"Invalid move: next player is supposed to be {self.next_moving_player}")
+        if player_number != self._next_moving_player:
+            raise exceptions.WrongPlayerException(f"Invalid move: next player is supposed to be {self._next_moving_player}")
         if self._board[x][y] != 0:
             raise exceptions.CellOccupiedException(f"Invalid move: cell ({x}, {y}) is already occupied")
 
