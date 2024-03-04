@@ -1,4 +1,4 @@
-from src.utils.validator import validate_in_between
+from lemon_tictactoe.utils.validator import validate_in_between
 
 MIN_BOARD_SIZE = 3
 MAX_BOARD_SIZE = 100
