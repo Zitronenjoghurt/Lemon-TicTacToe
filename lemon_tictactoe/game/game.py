@@ -1,4 +1,3 @@
-from lemon_tictactoe.constants.exceptions import TicTacToeValidationError
 from lemon_tictactoe.utils.validator import validate_in_between, validate_of_type
 
 MIN_BOARD_SIZE = 3
@@ -20,7 +19,7 @@ class Game():
             validate_in_between(board_size, MIN_BOARD_SIZE, MAX_BOARD_SIZE, "board_size")
             validate_of_type(log_moves, bool, "log_moves")
         except ValueError as e:
-            raise TicTacToeValidationError(f"An error occured while trying to initialize TicTacToe game: {e}")
+            raise ValueError(f"An error occured while trying to initialize TicTacToe game: {e}")
         
         self.board_size = board_size
         self.log_moves = log_moves
