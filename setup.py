@@ -2,8 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name="lemon_tictactoe",
-    version="0.1.0",
-    packages=find_packages(),
+    version="0.1.1",
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
     license="GNU General Public License v3.0",
     description="A library simplifying the process of embedding a TicTacToe game in your python project.",
     author="Zitronenjoghurt",
