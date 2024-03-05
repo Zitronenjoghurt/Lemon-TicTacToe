@@ -1,6 +1,7 @@
 test.py
 .DS_STORE
 .vscode
+README_pypi.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
