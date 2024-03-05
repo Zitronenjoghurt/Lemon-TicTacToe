@@ -64,11 +64,11 @@ class Game():
 
     def _check_game_not_started(self) -> None:
         if self._finished:
-            raise exceptions.GameStartedException()
+            raise exceptions.GameStartedError()
 
     def _check_game_not_finished(self) -> None:
         if self._finished:
-            raise exceptions.GameFinishedException()
+            raise exceptions.GameFinishedError()
 
     # Returns true if one of the win conditions is met
     def _count_win_condition(self, player_number: int, x: int, y: int) -> bool:
@@ -136,8 +136,8 @@ class Game():
 
         Raises:
             ValueError: On invalid input.
-            GameStartedException: When the game has already started.
-            GameFinishedException: When the game has already finished.
+            GameStartedError: When the game has already started.
+            GameFinishedError: When the game has already finished.
         """
         self._check_game_not_started()
         self._check_game_not_finished()
@@ -153,8 +153,8 @@ class Game():
 
         Raises:
             ValueError: On invalid input.
-            GameStartedException: When the game has already started.
-            GameFinishedException: When the game has already finished.
+            GameStartedError: When the game has already started.
+            GameFinishedError: When the game has already finished.
         """
         self._check_game_not_started()
         self._check_game_not_finished()
@@ -175,9 +175,9 @@ class Game():
 
         Raises:
             ValueError: On invalid input.
-            GameFinishedException: When the game has already finished.
-            CellOccupiedException: When the specified cell coordinates are already occupied.
-            WrongPlayerException: When the specified player is not supposed to move.
+            GameFinishedError: When the game has already finished.
+            CellOccupiedError: When the specified cell coordinates are already occupied.
+            WrongPlayerError: When the specified player is not supposed to move.
 
         Returns:
             bool: True if a win condition has been met, false if the game continues.
@@ -186,9 +186,9 @@ class Game():
         self._start_game()
         validate_coordinates(self.board_size, x, y)
         if player_number != self._next_moving_player:
-            raise exceptions.WrongPlayerException(f"Invalid move: next player is supposed to be {self._next_moving_player}")
+            raise exceptions.WrongPlayerError(f"Invalid move: next player is supposed to be {self._next_moving_player}")
         if self._board[x][y] != 0:
-            raise exceptions.CellOccupiedException(f"Invalid move: cell ({x}, {y}) is already occupied")
+            raise exceptions.CellOccupiedError(f"Invalid move: cell ({x}, {y}) is already occupied")
 
         self._board[x][y] = player_number
         self._increment_player()

@@ -1,2 +1,2 @@
 from .game.game import Game
-from .exceptions import CellOccupiedException, WrongPlayerException, GameFinishedException, GameStartedException
+from .exceptions import CellOccupiedError, WrongPlayerError, GameFinishedError, GameStartedError
