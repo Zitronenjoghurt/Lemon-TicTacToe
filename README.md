@@ -36,7 +36,7 @@ game = Game(board_size=10, player_count=5, starting_player=2)
 ## Grid coordinates
 The coordinates (0, 0) are at the top left of the board.
 Here is a visual representation of the board coordinates (x, y) with board_size=3:
-![Main Menu](/preview/main_menu.png)
+![Board Coordinates](/images/TicTacToe_Grid.png)
 
 ## Playing moves
 You can use the Game.move method, specifying a player and x,y coordinates to play a move.
