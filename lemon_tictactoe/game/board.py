@@ -26,7 +26,7 @@ class Board():
 
     # Returns true if one of the win conditions is met
     def _count_win_condition(self, player_number: int, x: int, y: int) -> bool:
-        win = self._add_column_count(row=x, player_number=player_number)
+        win = self._add_column_count(column=x, player_number=player_number)
         if win:
             return True
         
@@ -54,9 +54,9 @@ class Board():
         return False
     
     # Returns true if the win condition is met
-    def _add_column_count(self, row: int, player_number: int) -> bool:
-        self._column_counts[row][player_number] += 1
-        if self._column_counts[row][player_number] == self.size:
+    def _add_column_count(self, column: int, player_number: int) -> bool:
+        self._column_counts[column][player_number] += 1
+        if self._column_counts[column][player_number] == self.size:
             return True
         return False
     
