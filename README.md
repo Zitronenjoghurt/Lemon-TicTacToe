@@ -18,19 +18,19 @@ pip install lemon-tictactoe
 
 # Usage
 ## Setting up the game
-You can easily create a game by instantiating the Game class.  
+You can easily create a game by instantiating the TicTacToeGame class.  
 The default options will result in a traditional TicTacToe game.  
 ```py
-from lemon_tictactoe import Game
+from lemon_tictactoe import TicTacToeGame
 
-game = Game()
+game = TicTacToeGame()
 ```
 
 But you are also able to pass various configuration options to get a more custom experience:  
 ```py
-from lemon_tictactoe import Game
+from lemon_tictactoe import TicTacToeGame
 
-game = Game(board_size=10, player_count=5, starting_player=2)
+game = TicTacToeGame(board_size=10, player_count=5, starting_player=2)
 ```
 
 ## Grid coordinates
@@ -39,7 +39,7 @@ Here is a visual representation of the board coordinates (x, y) with board_size=
 <img src="/images/TicTacToe_Grid.png" width="300" height="300">
 
 ## Playing moves
-You can use the Game.move method, specifying a player and x,y coordinates to play a move.  
+You can use the TicTacToeGame.move method, specifying a player and x,y coordinates to play a move.  
 This will make Player 1 play their move on x=1 and y=2:  
 ```py
 win = game.move(1, 1, 2)
@@ -49,9 +49,9 @@ The move method will return True if it lead to a win of the specified player.
 ## Handling invalid move input
 Sometimes players might do moves which are not allowed, you can catch errors to handle these cases:  
 ```py
-from lemon_tictactoe import Game, CellOccupiedError, WrongPlayerError
+from lemon_tictactoe import TicTacToeGame, CellOccupiedError, WrongPlayerError
 
-game = Game()
+game = TicTacToeGame()
 
 try:
     game.move(1, 1, 2)
