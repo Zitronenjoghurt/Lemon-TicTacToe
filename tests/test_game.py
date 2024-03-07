@@ -1,8 +1,8 @@
 import pytest
-from lemon_tictactoe import Game, CellOccupiedException, WrongPlayerException
+from lemon_tictactoe import TicTacToeGame, CellOccupiedError, WrongPlayerError
 
 def test_set_player_name():
-    game = Game()
+    game = TicTacToeGame()
 
     assert game.players[1] == "Player 1"
     assert game.players[2] == "Player 2"
@@ -26,7 +26,7 @@ def test_set_player_name():
     assert "name has to be of type str" in str(context.value)
 
 def test_set_player_names():
-    game = Game()
+    game = TicTacToeGame()
 
     game.set_player_names(["Bert", "Bob"])
     assert game.players[1] == "Bert"
@@ -41,20 +41,20 @@ def test_set_player_names():
     assert "length of player_names can only have a maximum value of 2" in str(context.value)
 
 def test_move():
-    game = Game()
+    game = TicTacToeGame()
 
     game.move(1, 0, 0)
-    assert game._board[0][0] == 1
+    assert game._board._grid[0][0] == 1
 
     game.move(2, 0, 1)
-    assert game._board[0][1] == 2
+    assert game._board._grid[0][1] == 2
 
     game.move(1, 1, 0)
-    assert game._board[1][0] == 1
+    assert game._board._grid[1][0] == 1
 
-    with pytest.raises(WrongPlayerException):
+    with pytest.raises(WrongPlayerError):
         game.move(1, 1, 1)
-    with pytest.raises(CellOccupiedException):
+    with pytest.raises(CellOccupiedError):
         game.move(2, 1, 0)
 
     with pytest.raises(ValueError) as context:
@@ -74,7 +74,7 @@ def test_move():
     assert "y has to be a value between 0 and 2" in str(context.value)
 
 def test_example_game():
-    game = Game()
+    game = TicTacToeGame()
 
     assert game._started == False
     assert game._finished == False

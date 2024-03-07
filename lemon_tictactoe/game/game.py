@@ -1,5 +1,6 @@
 from typing import Optional
 from lemon_tictactoe import exceptions
+from lemon_tictactoe.game.board import Board
 from lemon_tictactoe.utils.validator import validate_in_between, validate_items_of_type, validate_maximum, validate_of_type
 
 MAX_BOARD_SIZE = 100
@@ -44,18 +45,11 @@ class Game():
         for i, name in enumerate(player_names):
             self.players[i+1] = name
 
-        self._board = [[0]*board_size for _ in range(board_size)]
+        self.winner = 0
+        self._board = Board(size=board_size, player_count=player_count)
         self._next_moving_player = starting_player
         self._started = False
         self._finished = False
-        self.winner = 0
-
-        # WIN CONDITION HANDLING
-        # Prevents the use of loops to check win conditions
-        self._row_counts = [{i: 0 for i in range(1, player_count + 1)} for _ in range(board_size)]
-        self._column_counts = [{i: 0 for i in range(1, player_count + 1)} for _ in range(board_size)]
-        self._topleft_bottomright = {i: 0 for i in range(1, player_count + 1)}
-        self._bottomleft_topright = {i: 0 for i in range(1, player_count + 1)}
 
     def _increment_player(self) -> None:
         self._next_moving_player += 1
@@ -69,56 +63,6 @@ class Game():
     def _check_game_not_finished(self) -> None:
         if self._finished:
             raise exceptions.GameFinishedError()
-
-    # Returns true if one of the win conditions is met
-    def _count_win_condition(self, player_number: int, x: int, y: int) -> bool:
-        win = self._add_column_count(row=x, player_number=player_number)
-        if win:
-            return True
-        
-        win = self._add_row_count(row=y, player_number=player_number)
-        if win:
-            return True
-        
-        if x == y:
-            win = self._add_topleft_bottomright(player_number=player_number)
-            if win:
-                return True
-        
-        if x + y == self.board_size - 1:
-            win = self._add_bottomleft_topright(player_number=player_number)
-            if win:
-                return True
-        
-        return False
-
-    # Returns true if the win condition is met
-    def _add_row_count(self, row: int, player_number: int) -> bool:
-        self._row_counts[row][player_number] += 1
-        if self._row_counts[row][player_number] == self.board_size:
-            return True
-        return False
-    
-    # Returns true if the win condition is met
-    def _add_column_count(self, row: int, player_number: int) -> bool:
-        self._column_counts[row][player_number] += 1
-        if self._column_counts[row][player_number] == self.board_size:
-            return True
-        return False
-    
-    # Returns true if the win condition is met
-    def _add_topleft_bottomright(self, player_number: int) -> bool:
-        self._topleft_bottomright[player_number] += 1
-        if self._topleft_bottomright[player_number] == self.board_size:
-            return True
-        return False
-    
-    # Returns true if the win condition is met
-    def _add_bottomleft_topright(self, player_number: int) -> bool:
-        self._bottomleft_topright[player_number] += 1
-        if self._bottomleft_topright[player_number] == self.board_size:
-            return True
-        return False
     
     def _start_game(self) -> None:
         self._started = True
@@ -184,21 +128,12 @@ class Game():
         """
         self._check_game_not_finished()
         self._start_game()
-        validate_coordinates(self.board_size, x, y)
         if player_number != self._next_moving_player:
             raise exceptions.WrongPlayerError(f"Invalid move: next player is supposed to be {self._next_moving_player}")
-        if self._board[x][y] != 0:
-            raise exceptions.CellOccupiedError(f"Invalid move: cell ({x}, {y}) is already occupied")
-
-        self._board[x][y] = player_number
+        
+        win = self._board._place(player_number=player_number, x=x, y=y)
         self._increment_player()
-
-        win = self._count_win_condition(player_number=player_number, x=x, y=y)
         if win:
             self._end_game(player_number=player_number)
 
         return win
-
-def validate_coordinates(size: int, x: int, y: int):
-    validate_in_between(x, 0, size-1, "x")
-    validate_in_between(y, 0, size-1, "y")
